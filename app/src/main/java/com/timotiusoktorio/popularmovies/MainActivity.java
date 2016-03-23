@@ -9,5 +9,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        String tmdbApiKey = BuildConfig.TMDB_API_KEY;
+        System.out.println("TMDB Api Key: " + tmdbApiKey);
     }
+
 }
