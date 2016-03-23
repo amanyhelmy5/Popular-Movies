@@ -3,4 +3,9 @@
 
     <string name="app_name">Popular Movies</string>
 
+    <!-- Preferences -->
+    <string name="pref_key_sort_options">pref_key_sort_options</string>
+    <string name="pref_value_sort_options_popular">popular</string>
+    <string name="pref_value_sort_options_top_rated">top_rated</string>
+
 </resources>
