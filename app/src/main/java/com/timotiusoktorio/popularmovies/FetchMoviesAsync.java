@@ -1,15 +1,14 @@
 package com.timotiusoktorio.popularmovies;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 
 import com.timotiusoktorio.popularmovies.adapters.MoviesAdapter;
 import com.timotiusoktorio.popularmovies.models.Movie;
+import com.timotiusoktorio.popularmovies.utilities.Utility;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,16 +42,23 @@ public class FetchMoviesAsync extends AsyncTask<Void, Void, List<Movie>> {
     }
 
     @Override
-    protected List<Movie> doInBackground(Void... params) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        String prefSortOption = preferences.getString(mContext.getString(R.string.pref_key_sort_options), mContext.getString(R.string.pref_value_sort_options_popular));
-        String moviesUrl = Constants.TMDB_BASE_URL + prefSortOption;
+    protected void onPreExecute() {
+        super.onPreExecute();
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {mSwipeRefreshLayout.setRefreshing(true);
+            }
+        });
+    }
 
+    @Override
+    protected List<Movie> doInBackground(Void... params) {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
         List<Movie> movies = null;
 
         try {
+            String moviesUrl = getMoviesUrl();
             Uri uri = Uri.parse(moviesUrl).buildUpon().appendQueryParameter(Constants.TMDB_PARAM_API_KEY, BuildConfig.TMDB_API_KEY).build();
             URL url = new URL(uri.toString());
             urlConnection = (HttpURLConnection) url.openConnection();
@@ -91,6 +97,14 @@ public class FetchMoviesAsync extends AsyncTask<Void, Void, List<Movie>> {
         mAdapter.clear();
         mAdapter.addAll(movies);
         mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    private String getMoviesUrl() {
+        switch (Utility.getPreferredSortOption(mContext)) {
+            case Constants.SORT_OPTION_POPULAR: return Constants.TMDB_MOVIE_URL_POPULAR;
+            case Constants.SORT_OPTION_TOP_RATED: return Constants.TMDB_MOVIE_URL_TOP_RATED;
+        }
+        return null;
     }
 
     private List<Movie> getMoviesFromJsonString(String jsonString) throws JSONException {

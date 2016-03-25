@@ -6,11 +6,17 @@ package com.timotiusoktorio.popularmovies;
 
 public class Constants {
 
-    public static final String TMDB_BASE_URL = "http://api.themoviedb.org/3/movie/";
+    public static final String TMDB_MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie/";
+    public static final String TMDB_MOVIE_URL_POPULAR = TMDB_MOVIE_BASE_URL + "popular";
+    public static final String TMDB_MOVIE_URL_TOP_RATED = TMDB_MOVIE_BASE_URL + "top_rated";
     public static final String TMDB_POSTER_BASE_URL = "http://image.tmdb.org/t/p/w185/";
     public static final String TMDB_PARAM_API_KEY = "api_key";
     public static final String TMDB_JSON_RESULTS = "results";
     public static final String TMDB_JSON_ID = "id";
     public static final String TMDB_JSON_POSTER_PATH = "poster_path";
+
+    public static final String[] SORT_OPTIONS = new String[] {"Popularity", "Top Rated"};
+    public static final int SORT_OPTION_POPULAR = 0;
+    public static final int SORT_OPTION_TOP_RATED = 1;
 
 }
