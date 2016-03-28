@@ -1,5 +1,6 @@
 package com.timotiusoktorio.popularmovies.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.timotiusoktorio.popularmovies.FetchMoviesAsync;
 import com.timotiusoktorio.popularmovies.R;
+import com.timotiusoktorio.popularmovies.activities.DetailsActivity;
 import com.timotiusoktorio.popularmovies.adapters.MoviesAdapter;
 import com.timotiusoktorio.popularmovies.helpers.DialogHelper;
 import com.timotiusoktorio.popularmovies.models.Movie;
@@ -26,7 +28,9 @@ import java.util.ArrayList;
  * Created by Timotius on 2016-03-23.
  */
 
-public class MoviesFragment extends Fragment implements MaterialDialog.ListCallbackSingleChoice {
+public class MoviesFragment extends Fragment implements MoviesAdapter.OnItemClickListener, MaterialDialog.ListCallbackSingleChoice {
+
+    public static final String INTENT_EXTRA_MOVIE_ID = "INTENT_EXTRA_MOVIE_ID";
 
     private MoviesAdapter mAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -35,7 +39,9 @@ public class MoviesFragment extends Fragment implements MaterialDialog.ListCallb
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
         mAdapter = new MoviesAdapter(getActivity(), new ArrayList<Movie>());
+        mAdapter.setOnItemClickListener(this);
     }
 
     @Override
@@ -80,6 +86,13 @@ public class MoviesFragment extends Fragment implements MaterialDialog.ListCallb
             DialogHelper.instantiateSortPickerDialog(getActivity(), prefSortOption, this);
         }
         return true;
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Intent intent = new Intent(getActivity(), DetailsActivity.class);
+        intent.putExtra(INTENT_EXTRA_MOVIE_ID, mAdapter.getItemId(position));
+        startActivity(intent);
     }
 
     @Override

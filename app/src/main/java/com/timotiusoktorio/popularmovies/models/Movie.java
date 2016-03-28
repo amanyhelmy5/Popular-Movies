@@ -1,22 +1,34 @@
 package com.timotiusoktorio.popularmovies.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 /**
  * Created by Timotius on 2016-03-24.
  */
 
-public class Movie implements Parcelable {
+public class Movie {
 
     long id;
     String posterPath;
+    String title;
+    String releaseDate;
+    String overview;
+    int runtime;
+    double voteAverage;
 
     public Movie() {}
 
     public Movie(long id, String posterPath) {
         this.id = id;
         this.posterPath = posterPath;
+    }
+
+    public Movie(long id, String posterPath, String title, String releaseDate, String overview, int runtime, double voteAverage) {
+        this.id = id;
+        this.posterPath = posterPath;
+        this.title = title;
+        this.releaseDate = releaseDate;
+        this.overview = overview;
+        this.runtime = runtime;
+        this.voteAverage = voteAverage;
     }
 
     public long getId() {
@@ -35,32 +47,44 @@ public class Movie implements Parcelable {
         this.posterPath = posterPath;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getTitle() {
+        return title;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this.id);
-        dest.writeString(this.posterPath);
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    protected Movie(Parcel in) {
-        this.id = in.readLong();
-        this.posterPath = in.readString();
+    public String getReleaseDate() {
+        return releaseDate;
     }
 
-    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
-        @Override
-        public Movie createFromParcel(Parcel source) {
-            return new Movie(source);
-        }
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
 
-        @Override
-        public Movie[] newArray(int size) {
-            return new Movie[size];
-        }
-    };
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public int getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(int runtime) {
+        this.runtime = runtime;
+    }
+
+    public double getVoteAverage() {
+        return voteAverage;
+    }
+
+    public void setVoteAverage(double voteAverage) {
+        this.voteAverage = voteAverage;
+    }
 
 }

@@ -23,9 +23,15 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     private Context mContext;
     private List<Movie> mMovies;
 
+    private static OnItemClickListener sOnItemClickListener;
+
     public MoviesAdapter(Context context, List<Movie> movies) {
         mContext = context;
         mMovies = movies;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        sOnItemClickListener = onItemClickListener;
     }
 
     @Override
@@ -35,7 +41,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         String posterUrl = Constants.TMDB_POSTER_BASE_URL + mMovies.get(position).getPosterPath();
         Picasso.with(mContext).load(posterUrl).into(holder.movieImageView);
     }
@@ -43,6 +49,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     @Override
     public int getItemCount() {
         return mMovies.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return mMovies.get(position).getId();
     }
 
     public void clear() {
@@ -55,15 +66,25 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ImageView movieImageView;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             movieImageView = (ImageView) itemView.findViewById(R.id.movie_image_view);
         }
 
+        @Override
+        public void onClick(View v) {
+            sOnItemClickListener.onItemClick(getAdapterPosition());
+        }
+
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
 
 }

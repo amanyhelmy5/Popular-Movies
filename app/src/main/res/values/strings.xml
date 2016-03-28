@@ -2,6 +2,9 @@
 <resources>
 
     <string name="app_name">Popular Movies</string>
+    <string name="title_activity_details">Movie Details</string>
+
+    <!-- Action Bar Menus -->
     <string name="action_sort">Sort</string>
 
     <!-- Dialogs -->
@@ -10,7 +13,16 @@
     <!-- Preferences -->
     <string name="pref_key_sort_options">pref_key_sort_options</string>
 
+    <!-- String Formats -->
+    <string name="string_format_release_date">Release date: %s</string>
+    <string name="string_format_runtime">Runtime: %d min</string>
+    <string name="string_format_rating">Rating: %.1f / 10</string>
+
     <!-- UI: Image View -->
     <string name="image_view_cd_movies">Movie Poster</string>
+
+    <!-- UI: Text View -->
+    <string name="text_view_overview_label">Overview</string>
+    <string name="text_view_trailers_label">Trailers</string>
 
 </resources>
