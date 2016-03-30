@@ -56,6 +56,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         return mMovies.get(position).getId();
     }
 
+    public Movie getItem(int position) {
+        return mMovies.get(position);
+    }
+
     public void clear() {
         mMovies.clear();
         notifyDataSetChanged();

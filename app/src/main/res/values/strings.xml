@@ -15,7 +15,6 @@
 
     <!-- String Formats -->
     <string name="string_format_release_date">Release date: %s</string>
-    <string name="string_format_runtime">Runtime: %d min</string>
     <string name="string_format_rating">Rating: %.1f / 10</string>
 
     <!-- UI: Image View -->

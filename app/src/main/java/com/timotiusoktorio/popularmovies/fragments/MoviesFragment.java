@@ -24,16 +24,21 @@ import com.timotiusoktorio.popularmovies.utilities.Utility;
 
 import java.util.ArrayList;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by Timotius on 2016-03-23.
  */
 
 public class MoviesFragment extends Fragment implements MoviesAdapter.OnItemClickListener, MaterialDialog.ListCallbackSingleChoice {
 
-    public static final String INTENT_EXTRA_MOVIE_ID = "INTENT_EXTRA_MOVIE_ID";
+    public static final String INTENT_EXTRA_MOVIE = "INTENT_EXTRA_MOVIE";
 
     private MoviesAdapter mAdapter;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+
+    @Bind(R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
+    @Bind(R.id.recycler_view) RecyclerView mRecyclerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +57,8 @@ public class MoviesFragment extends Fragment implements MoviesAdapter.OnItemClic
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+        ButterKnife.bind(this, view);
+
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -61,16 +67,21 @@ public class MoviesFragment extends Fragment implements MoviesAdapter.OnItemClic
             }
         });
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        recyclerView.setAdapter(mAdapter);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        recyclerView.setHasFixedSize(true);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        mRecyclerView.setHasFixedSize(true);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         fetchMovies();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 
     @Override
@@ -91,7 +102,7 @@ public class MoviesFragment extends Fragment implements MoviesAdapter.OnItemClic
     @Override
     public void onItemClick(int position) {
         Intent intent = new Intent(getActivity(), DetailsActivity.class);
-        intent.putExtra(INTENT_EXTRA_MOVIE_ID, mAdapter.getItemId(position));
+        intent.putExtra(INTENT_EXTRA_MOVIE, mAdapter.getItem(position));
         startActivity(intent);
     }
 

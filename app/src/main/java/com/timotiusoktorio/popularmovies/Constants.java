@@ -18,7 +18,6 @@ public class Constants {
     public static final String TMDB_JSON_TITLE = "title";
     public static final String TMDB_JSON_RELEASE_DATE = "release_date";
     public static final String TMDB_JSON_OVERVIEW = "overview";
-    public static final String TMDB_JSON_RUNTIME = "runtime";
     public static final String TMDB_JSON_VOTE_AVERAGE = "vote_average";
 
     public static final String[] SORT_OPTIONS = new String[] {"Popularity", "Top Rated"};

@@ -115,8 +115,11 @@ public class FetchMoviesAsync extends AsyncTask<Void, Void, List<Movie>> {
             JSONObject object = results.getJSONObject(i);
             long id = object.getLong(Constants.TMDB_JSON_ID);
             String posterPath = object.getString(Constants.TMDB_JSON_POSTER_PATH);
-            Movie movie = new Movie(id, posterPath);
-            Log.d(LOG_TAG, "Created new movie with id: " + id + " and poster path: " + posterPath);
+            String title = object.getString(Constants.TMDB_JSON_TITLE);
+            String releaseDate = object.getString(Constants.TMDB_JSON_RELEASE_DATE);
+            String overview = object.getString(Constants.TMDB_JSON_OVERVIEW);
+            double voteAverage = object.getDouble(Constants.TMDB_JSON_VOTE_AVERAGE);
+            Movie movie = new Movie(id, posterPath, title, releaseDate, overview, voteAverage);
             movies.add(movie);
         }
         Log.d(LOG_TAG, "Total movies created: " + movies.size());

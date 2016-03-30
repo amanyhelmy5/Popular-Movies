@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import com.timotiusoktorio.popularmovies.R;
 import com.timotiusoktorio.popularmovies.fragments.DetailsFragment;
 import com.timotiusoktorio.popularmovies.fragments.MoviesFragment;
+import com.timotiusoktorio.popularmovies.models.Movie;
 
 /**
  * Created by Timotius on 2016-03-25.
@@ -20,8 +21,8 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
 
         if (savedInstanceState == null) {
-            long movieId = getIntent().getLongExtra(MoviesFragment.INTENT_EXTRA_MOVIE_ID, -1);
-            DetailsFragment detailsFragment = DetailsFragment.newInstance(movieId);
+            Movie movie = getIntent().getParcelableExtra(MoviesFragment.INTENT_EXTRA_MOVIE);
+            DetailsFragment detailsFragment = DetailsFragment.newInstance(movie);
             getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, detailsFragment).commit();
         }
     }

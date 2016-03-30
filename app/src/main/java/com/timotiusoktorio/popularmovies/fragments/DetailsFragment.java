@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.timotiusoktorio.popularmovies.Constants;
-import com.timotiusoktorio.popularmovies.FetchMovieDetailsAsync;
 import com.timotiusoktorio.popularmovies.R;
 import com.timotiusoktorio.popularmovies.models.Movie;
 
@@ -23,24 +22,22 @@ import butterknife.ButterKnife;
  * Created by Timotius on 2016-03-25.
  */
 
-public class DetailsFragment extends Fragment implements FetchMovieDetailsAsync.OnMovieFetchedListener {
+public class DetailsFragment extends Fragment {
 
-    private static final String ARG_MOVIE_ID = "ARG_MOVIE_ID";
+    private static final String ARG_MOVIE = "ARG_MOVIE";
 
     @Bind(R.id.poster_image_view) ImageView mPosterImageView;
     @Bind(R.id.title_text_view) TextView mTitleTextView;
     @Bind(R.id.release_date_text_view) TextView mReleaseDateTextView;
-    @Bind(R.id.runtime_text_view) TextView mRuntimeTextView;
     @Bind(R.id.rating_text_view) TextView mRatingTextView;
     @Bind(R.id.overview_text_view) TextView mOverviewTextView;
 
     @BindString(R.string.string_format_release_date) String mReleaseDateFormat;
-    @BindString(R.string.string_format_runtime) String mRuntimeFormat;
     @BindString(R.string.string_format_rating) String mRatingFormat;
 
-    public static DetailsFragment newInstance(long movieId) {
+    public static DetailsFragment newInstance(Movie movie) {
         Bundle args = new Bundle();
-        args.putLong(ARG_MOVIE_ID, movieId);
+        args.putParcelable(ARG_MOVIE, movie);
         DetailsFragment detailsFragment = new DetailsFragment();
         detailsFragment.setArguments(args);
         return detailsFragment;
@@ -60,7 +57,27 @@ public class DetailsFragment extends Fragment implements FetchMovieDetailsAsync.
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        new FetchMovieDetailsAsync(this).execute(getArguments().getLong(ARG_MOVIE_ID));
+        Movie movie = getArguments().getParcelable(ARG_MOVIE);
+        if (movie != null) {
+            String posterUrl = Constants.TMDB_POSTER_BASE_URL_LARGE + movie.getPosterPath();
+            Picasso.with(getActivity()).load(posterUrl).into(mPosterImageView, new Callback() {
+                @Override
+                public void onSuccess() {
+                    View rootView = getView();
+                    if (rootView != null) rootView.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onError() {
+
+                }
+            });
+
+            mTitleTextView.setText(movie.getTitle());
+            mReleaseDateTextView.setText(String.format(mReleaseDateFormat, movie.getReleaseDate()));
+            mRatingTextView.setText(String.format(mRatingFormat, movie.getVoteAverage()));
+            mOverviewTextView.setText(movie.getOverview());
+        }
     }
 
     @Override
@@ -68,30 +85,5 @@ public class DetailsFragment extends Fragment implements FetchMovieDetailsAsync.
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
-
-    @Override
-    public void onMovieFetched(Movie movie) {
-        String posterUrl = Constants.TMDB_POSTER_BASE_URL_LARGE + movie.getPosterPath();
-        Picasso.with(getActivity()).load(posterUrl).into(mPosterImageView, mPictureLoadedCallback);
-
-        mTitleTextView.setText(movie.getTitle());
-        mReleaseDateTextView.setText(String.format(mReleaseDateFormat, movie.getReleaseDate()));
-        mRuntimeTextView.setText(String.format(mRuntimeFormat, movie.getRuntime()));
-        mRatingTextView.setText(String.format(mRatingFormat, movie.getVoteAverage()));
-        mOverviewTextView.setText(movie.getOverview());
-    }
-
-    private Callback mPictureLoadedCallback = new Callback() {
-        @Override
-        public void onSuccess() {
-            View rootView = getView();
-            if (null != rootView) rootView.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        public void onError() {
-
-        }
-    };
 
 }
