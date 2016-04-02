@@ -1,5 +1,6 @@
 package com.timotiusoktorio.popularmovies.adapters;
 
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,11 +22,9 @@ import butterknife.ButterKnife;
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHolder> {
 
     private List<Review> mReviews;
-    private OnReviewClickListener mOnReviewClickListener;
 
-    public ReviewsAdapter(List<Review> reviews, OnReviewClickListener onReviewClickListener) {
+    public ReviewsAdapter(List<Review> reviews) {
         mReviews = reviews;
-        mOnReviewClickListener = onReviewClickListener;
     }
 
     @Override
@@ -44,13 +43,9 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
         final Review review = mReviews.get(position);
         holder.authorTextView.setText(review.getAuthor());
         holder.contentTextView.setText(review.getContent());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { mOnReviewClickListener.onReviewClick(review.getUrl()); }
-        });
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @Bind(R.id.author_text_view) TextView authorTextView;
         @Bind(R.id.content_text_view) TextView contentTextView;
@@ -58,12 +53,15 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
         }
 
-    }
+        @Override
+        public void onClick(View v) {
+            int contentTextViewMaxLines = TextViewCompat.getMaxLines(contentTextView);
+            contentTextView.setMaxLines((contentTextViewMaxLines == 2) ? 100 : 2);
+        }
 
-    public interface OnReviewClickListener {
-        void onReviewClick(String url);
     }
 
 }

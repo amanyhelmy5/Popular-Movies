@@ -125,8 +125,7 @@ public class FetchMovieDetailsAsync extends AsyncTask<Movie, Void, Movie> {
                 JSONObject object = results.getJSONObject(i);
                 String author = object.getString(TMDB_JSON_AUTHOR);
                 String content = object.getString(TMDB_JSON_CONTENT);
-                String url = object.getString(TMDB_JSON_URL);
-                Review review = new Review(author, content, url);
+                Review review = new Review(author, content);
                 reviews.add(review);
             }
             Log.d(LOG_TAG, "Total reviews created: " + reviews.size());

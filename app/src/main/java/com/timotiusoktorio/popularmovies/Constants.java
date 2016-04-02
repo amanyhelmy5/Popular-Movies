@@ -25,7 +25,6 @@ public class Constants {
     public static final String TMDB_JSON_TYPE = "type";
     public static final String TMDB_JSON_AUTHOR = "author";
     public static final String TMDB_JSON_CONTENT = "content";
-    public static final String TMDB_JSON_URL = "url";
 
     public static final String YOUTUBE_IMAGE_URL_PREFIX = "http://img.youtube.com/vi/";
     public static final String YOUTUBE_IMAGE_URL_SUFFIX = "/0.jpg";

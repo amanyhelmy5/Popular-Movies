@@ -8,14 +8,12 @@ public class Review {
 
     String author;
     String content;
-    String url;
 
     public Review() {}
 
-    public Review(String author, String content, String url) {
+    public Review(String author, String content) {
         this.author = author;
         this.content = content;
-        this.url = url;
     }
 
     public String getAuthor() {
@@ -32,14 +30,6 @@ public class Review {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
 }

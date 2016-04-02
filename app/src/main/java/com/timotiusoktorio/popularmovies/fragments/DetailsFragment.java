@@ -14,7 +14,6 @@ import com.timotiusoktorio.popularmovies.Constants;
 import com.timotiusoktorio.popularmovies.FetchMovieDetailsAsync;
 import com.timotiusoktorio.popularmovies.R;
 import com.timotiusoktorio.popularmovies.adapters.DetailsAdapter;
-import com.timotiusoktorio.popularmovies.adapters.ReviewsAdapter;
 import com.timotiusoktorio.popularmovies.adapters.TrailersAdapter;
 import com.timotiusoktorio.popularmovies.models.Movie;
 
@@ -25,7 +24,7 @@ import butterknife.ButterKnife;
  * Created by Timotius on 2016-03-25.
  */
 
-public class DetailsFragment extends Fragment implements TrailersAdapter.OnTrailerClickListener, ReviewsAdapter.OnReviewClickListener {
+public class DetailsFragment extends Fragment implements TrailersAdapter.OnTrailerClickListener {
 
     private static final String ARG_MOVIE = "ARG_MOVIE";
 
@@ -46,7 +45,6 @@ public class DetailsFragment extends Fragment implements TrailersAdapter.OnTrail
         super.onCreate(savedInstanceState);
         mAdapter = new DetailsAdapter(getActivity());
         mAdapter.setOnTrailerClickListener(this);
-        mAdapter.setOnReviewClickListener(this);
     }
 
     @Override
@@ -81,11 +79,6 @@ public class DetailsFragment extends Fragment implements TrailersAdapter.OnTrail
         Uri trailerUri = Uri.parse(Constants.YOUTUBE_VIDEO_URL + key);
         Intent intent = new Intent(Intent.ACTION_VIEW, trailerUri);
         if (intent.resolveActivity(getActivity().getPackageManager()) != null) startActivity(intent);
-    }
-
-    @Override
-    public void onReviewClick(String url) {
-        System.out.println("Opening review url: " + url);
     }
 
 }

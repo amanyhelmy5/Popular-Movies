@@ -30,7 +30,6 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private Context mContext;
     private Movie mMovie;
     private TrailersAdapter.OnTrailerClickListener mOnTrailerClickListener;
-    private ReviewsAdapter.OnReviewClickListener mOnReviewClickListener;
 
     public DetailsAdapter(Context context) {
         mContext = context;
@@ -42,10 +41,6 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void setOnTrailerClickListener(TrailersAdapter.OnTrailerClickListener onTrailerClickListener) {
         mOnTrailerClickListener = onTrailerClickListener;
-    }
-
-    public void setOnReviewClickListener(ReviewsAdapter.OnReviewClickListener onReviewClickListener) {
-        mOnReviewClickListener = onReviewClickListener;
     }
 
     @Override
@@ -116,7 +111,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private void bindMovieReviewsViewHolder(MovieReviewsViewHolder holder) {
-        holder.reviewsRecyclerView.setAdapter(new ReviewsAdapter(mMovie.getReviews(), mOnReviewClickListener));
+        holder.reviewsRecyclerView.setAdapter(new ReviewsAdapter(mMovie.getReviews()));
         holder.reviewsRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         holder.reviewsRecyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST));
     }
