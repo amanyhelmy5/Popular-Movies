@@ -18,10 +18,12 @@
     <string name="string_format_rating">Rating: %.1f / 10</string>
 
     <!-- UI: Image View -->
-    <string name="image_view_cd_movies">Movie Poster</string>
+    <string name="image_view_cd_movie_poster">Movie Poster</string>
+    <string name="image_view_cd_trailer_poster">Trailer Poster</string>
 
     <!-- UI: Text View -->
     <string name="text_view_overview_label">Overview</string>
     <string name="text_view_trailers_label">Trailers</string>
+    <string name="text_view_reviews_label">Reviews</string>
 
 </resources>

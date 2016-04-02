@@ -3,6 +3,8 @@ package com.timotiusoktorio.popularmovies.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 /**
  * Created by Timotius on 2016-03-24.
  */
@@ -15,6 +17,8 @@ public class Movie implements Parcelable {
     String releaseDate;
     String overview;
     double voteAverage;
+    List<Trailer> trailers;
+    List<Review> reviews;
 
     public Movie() {}
 
@@ -73,6 +77,22 @@ public class Movie implements Parcelable {
 
     public void setVoteAverage(double voteAverage) {
         this.voteAverage = voteAverage;
+    }
+
+    public List<Trailer> getTrailers() {
+        return trailers;
+    }
+
+    public void setTrailers(List<Trailer> trailers) {
+        this.trailers = trailers;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 
     @Override
