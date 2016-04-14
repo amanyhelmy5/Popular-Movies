@@ -11,7 +11,9 @@ import com.squareup.picasso.Picasso;
 import com.timotiusoktorio.popularmovies.Constants;
 import com.timotiusoktorio.popularmovies.R;
 import com.timotiusoktorio.popularmovies.models.Movie;
+import com.timotiusoktorio.popularmovies.utilities.Utility;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.Bind;
@@ -25,7 +27,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
 
     private Context mContext;
     private List<Movie> mMovies;
-
     private static OnItemClickListener sOnItemClickListener;
 
     public MoviesAdapter(Context context, List<Movie> movies) {
@@ -68,9 +69,15 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
-        String posterUrl = Constants.TMDB_MOVIE_POSTER_URL + mMovies.get(position).getPosterPath();
-        Picasso.with(mContext).load(posterUrl).into(holder.movieImageView);
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        String posterPath = mMovies.get(position).getPosterPath();
+        String posterUrl = Constants.TMDB_MOVIE_POSTER_URL + posterPath;
+        if (Utility.isExternalStorageReadable()) {
+            File posterFile = new File(mContext.getExternalFilesDir(null), posterPath);
+            if (posterFile.exists()) Picasso.with(mContext).load(posterFile).into(holder.movieImageView);
+            else Picasso.with(mContext).load(posterUrl).into(holder.movieImageView);
+        }
+        else Picasso.with(mContext).load(posterUrl).into(holder.movieImageView);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

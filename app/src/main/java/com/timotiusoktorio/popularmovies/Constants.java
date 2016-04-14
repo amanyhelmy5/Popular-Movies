@@ -30,8 +30,11 @@ public class Constants {
     public static final String YOUTUBE_IMAGE_URL_SUFFIX = "/0.jpg";
     public static final String YOUTUBE_VIDEO_URL = "https://www.youtube.com/watch?v=";
 
-    public static final String[] SORT_OPTIONS = new String[] {"Popularity", "Top Rated"};
+    public static final String[] SORT_OPTIONS = new String[] {"Popularity", "Top Rated", "Favorites"};
     public static final int SORT_OPTION_POPULAR = 0;
     public static final int SORT_OPTION_TOP_RATED = 1;
+    public static final int SORT_OPTION_FAVORITES = 2;
+
+    public static final String JPG_SUFFIX = ".jpg";
 
 }

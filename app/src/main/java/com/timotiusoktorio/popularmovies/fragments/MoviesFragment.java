@@ -79,12 +79,6 @@ public class MoviesFragment extends Fragment implements MoviesAdapter.OnItemClic
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_fragment_movies, menu);
@@ -95,8 +89,15 @@ public class MoviesFragment extends Fragment implements MoviesAdapter.OnItemClic
         if (item.getItemId() == R.id.action_sort) {
             int prefSortOption = Utility.getPreferredSortOption(getActivity());
             DialogHelper.instantiateSortPickerDialog(getActivity(), prefSortOption, this);
+            return true;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 
     @Override

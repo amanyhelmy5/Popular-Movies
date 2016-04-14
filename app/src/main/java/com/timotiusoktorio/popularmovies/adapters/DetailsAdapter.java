@@ -13,7 +13,11 @@ import com.squareup.picasso.Picasso;
 import com.timotiusoktorio.popularmovies.Constants;
 import com.timotiusoktorio.popularmovies.R;
 import com.timotiusoktorio.popularmovies.models.Movie;
+import com.timotiusoktorio.popularmovies.models.Review;
+import com.timotiusoktorio.popularmovies.models.Trailer;
 import com.timotiusoktorio.popularmovies.utilities.DividerItemDecoration;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -82,10 +86,12 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 bindMovieInfoViewHolder((MovieInfoViewHolder) holder);
                 break;
             case TYPE_TRAILERS:
-                bindMovieTrailersViewHolder((MovieTrailersViewHolder) holder);
+                List<Trailer> trailers = mMovie.getTrailers();
+                if (trailers != null && trailers.size() > 0) bindMovieTrailersViewHolder((MovieTrailersViewHolder) holder, trailers);
                 break;
             case TYPE_REVIEWS:
-                bindMovieReviewsViewHolder((MovieReviewsViewHolder) holder);
+                List<Review> reviews = mMovie.getReviews();
+                if (reviews != null && reviews.size() > 0) bindMovieReviewsViewHolder((MovieReviewsViewHolder) holder, reviews);
                 break;
         }
     }
@@ -104,14 +110,16 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         holder.titleTextView.setText(mMovie.getTitle());
     }
 
-    private void bindMovieTrailersViewHolder(MovieTrailersViewHolder holder) {
-        holder.trailersRecyclerView.setAdapter(new TrailersAdapter(mContext, mMovie.getTrailers(), mOnTrailerClickListener));
+    private void bindMovieTrailersViewHolder(MovieTrailersViewHolder holder, List<Trailer> trailers) {
+        holder.itemView.setVisibility(View.VISIBLE);
+        holder.trailersRecyclerView.setAdapter(new TrailersAdapter(mContext, trailers, mOnTrailerClickListener));
         holder.trailersRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
         holder.trailersRecyclerView.setHasFixedSize(true);
     }
 
-    private void bindMovieReviewsViewHolder(MovieReviewsViewHolder holder) {
-        holder.reviewsRecyclerView.setAdapter(new ReviewsAdapter(mMovie.getReviews()));
+    private void bindMovieReviewsViewHolder(MovieReviewsViewHolder holder, List<Review> reviews) {
+        holder.itemView.setVisibility(View.VISIBLE);
+        holder.reviewsRecyclerView.setAdapter(new ReviewsAdapter(reviews));
         holder.reviewsRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         holder.reviewsRecyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST));
     }

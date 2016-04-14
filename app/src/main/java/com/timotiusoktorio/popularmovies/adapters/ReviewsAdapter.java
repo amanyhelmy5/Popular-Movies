@@ -21,6 +21,9 @@ import butterknife.ButterKnife;
 
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHolder> {
 
+    private static final int REVIEW_CONTENT_FULL = 100;
+    private static final int REVIEW_CONTENT_SHORT = 2;
+
     private List<Review> mReviews;
 
     public ReviewsAdapter(List<Review> reviews) {
@@ -59,7 +62,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
         @Override
         public void onClick(View v) {
             int contentTextViewMaxLines = TextViewCompat.getMaxLines(contentTextView);
-            contentTextView.setMaxLines((contentTextViewMaxLines == 2) ? 100 : 2);
+            contentTextView.setMaxLines((contentTextViewMaxLines == REVIEW_CONTENT_SHORT) ? REVIEW_CONTENT_FULL : REVIEW_CONTENT_SHORT);
         }
 
     }

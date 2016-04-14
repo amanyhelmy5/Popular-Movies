@@ -48,14 +48,15 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final Trailer trailer = mTrailers.get(position);
+        final String trailerKey = trailer.getKey();
 
-        String trailerPosterUrl = Constants.YOUTUBE_IMAGE_URL_PREFIX + trailer.getKey() + Constants.YOUTUBE_IMAGE_URL_SUFFIX;
+        String trailerPosterUrl = Constants.YOUTUBE_IMAGE_URL_PREFIX + trailerKey + Constants.YOUTUBE_IMAGE_URL_SUFFIX;
         Picasso.with(mContext).load(trailerPosterUrl).into(holder.trailerPosterImageView);
 
         holder.trailerLabelTextView.setText(trailer.getName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { mOnTrailerClickListener.onTrailerClick(trailer.getKey()); }
+            public void onClick(View v) { mOnTrailerClickListener.onTrailerClick(trailerKey); }
         });
     }
 

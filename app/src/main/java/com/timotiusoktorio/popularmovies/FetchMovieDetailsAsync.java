@@ -1,5 +1,6 @@
 package com.timotiusoktorio.popularmovies;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -8,6 +9,7 @@ import com.timotiusoktorio.popularmovies.adapters.DetailsAdapter;
 import com.timotiusoktorio.popularmovies.models.Movie;
 import com.timotiusoktorio.popularmovies.models.Review;
 import com.timotiusoktorio.popularmovies.models.Trailer;
+import com.timotiusoktorio.popularmovies.utilities.Utility;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,7 +24,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.timotiusoktorio.popularmovies.Constants.*;
+import static com.timotiusoktorio.popularmovies.Constants.TMDB_JSON_AUTHOR;
+import static com.timotiusoktorio.popularmovies.Constants.TMDB_JSON_CONTENT;
+import static com.timotiusoktorio.popularmovies.Constants.TMDB_JSON_KEY;
+import static com.timotiusoktorio.popularmovies.Constants.TMDB_JSON_NAME;
+import static com.timotiusoktorio.popularmovies.Constants.TMDB_JSON_RESULTS;
+import static com.timotiusoktorio.popularmovies.Constants.TMDB_JSON_TYPE;
+import static com.timotiusoktorio.popularmovies.Constants.TMDB_MOVIE_URL;
+import static com.timotiusoktorio.popularmovies.Constants.TMDB_PARAM_API_KEY;
+import static com.timotiusoktorio.popularmovies.Constants.TMDB_REVIEWS_URL_SUFFIX;
+import static com.timotiusoktorio.popularmovies.Constants.TMDB_VIDEOS_URL_SUFFIX;
 
 /**
  * Created by Timotius on 2016-03-25.
@@ -32,9 +43,11 @@ public class FetchMovieDetailsAsync extends AsyncTask<Movie, Void, Movie> {
 
     private static final String LOG_TAG = FetchMovieDetailsAsync.class.getSimpleName();
 
+    private Context mContext;
     private DetailsAdapter mAdapter;
 
-    public FetchMovieDetailsAsync(DetailsAdapter adapter) {
+    public FetchMovieDetailsAsync(Context context, DetailsAdapter adapter) {
+        mContext = context;
         mAdapter = adapter;
     }
 
@@ -42,11 +55,13 @@ public class FetchMovieDetailsAsync extends AsyncTask<Movie, Void, Movie> {
     protected Movie doInBackground(Movie... params) {
         Movie movie = params[0];
 
-        String trailersJsonString = fetchRawMovieData(TMDB_MOVIE_URL + movie.getId() + TMDB_VIDEOS_URL_SUFFIX);
-        movie.setTrailers(getTrailersFromJsonString(trailersJsonString));
+        if (Utility.isNetworkAvailable(mContext)) {
+            String trailersJsonString = fetchRawMovieData(TMDB_MOVIE_URL + movie.getId() + TMDB_VIDEOS_URL_SUFFIX);
+            movie.setTrailers(getTrailersFromJsonString(trailersJsonString));
 
-        String reviewsJsonString = fetchRawMovieData(TMDB_MOVIE_URL + movie.getId() + TMDB_REVIEWS_URL_SUFFIX);
-        movie.setReviews(getReviewsFromJsonString(reviewsJsonString));
+            String reviewsJsonString = fetchRawMovieData(TMDB_MOVIE_URL + movie.getId() + TMDB_REVIEWS_URL_SUFFIX);
+            movie.setReviews(getReviewsFromJsonString(reviewsJsonString));
+        }
 
         return movie;
     }
@@ -108,7 +123,7 @@ public class FetchMovieDetailsAsync extends AsyncTask<Movie, Void, Movie> {
                 Trailer trailer = new Trailer(key, name, type);
                 trailers.add(trailer);
             }
-            Log.d(LOG_TAG, "Total trailers created: " + trailers.size());
+            Log.d(LOG_TAG, "Total trailers fetched from API: " + trailers.size());
         }
         catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
@@ -128,7 +143,7 @@ public class FetchMovieDetailsAsync extends AsyncTask<Movie, Void, Movie> {
                 Review review = new Review(author, content);
                 reviews.add(review);
             }
-            Log.d(LOG_TAG, "Total reviews created: " + reviews.size());
+            Log.d(LOG_TAG, "Total reviews fetched from API: " + reviews.size());
         }
         catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);

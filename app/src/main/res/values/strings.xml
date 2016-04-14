@@ -3,12 +3,19 @@
 
     <string name="app_name">Popular Movies</string>
     <string name="title_activity_details">Movie Details</string>
+    <string name="authority">com.timotiusoktorio.popularmovies</string>
 
     <!-- Action Bar Menus -->
     <string name="action_sort">Sort</string>
+    <string name="action_favorite">Favorite</string>
 
     <!-- Dialogs -->
     <string name="dialog_title_sort_picker">Sort by</string>
+
+    <!-- Messages -->
+    <string name="msg_network_unavailable">You are not connected to internet!</string>
+    <string name="msg_saved_to_favorites">Successfully saved movie to favorites.</string>
+    <string name="msg_removed_from_favorites">Successfully removed movie from favorites.</string>
 
     <!-- Preferences -->
     <string name="pref_key_sort_options">pref_key_sort_options</string>
