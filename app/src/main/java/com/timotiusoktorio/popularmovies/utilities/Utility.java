@@ -3,6 +3,7 @@ package com.timotiusoktorio.popularmovies.utilities;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -31,6 +32,17 @@ import java.io.IOException;
 public class Utility {
 
     private static final String LOG_TAG = Utility.class.getSimpleName();
+    private static final int TOTAL_COLUMNS_LARGE = 1;
+    private static final int TOTAL_COLUMNS_PORT = 2;
+    private static final int TOTAL_COLUMNS_LAND = 3;
+
+    public static int getTotalColumns(Context context) {
+        Configuration config = context.getResources().getConfiguration();
+        if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            if (config.screenWidthDp >= 600) return TOTAL_COLUMNS_LARGE;
+            else return TOTAL_COLUMNS_PORT;
+        } else return TOTAL_COLUMNS_LAND;
+    }
 
     public static int getPreferredSortOption(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);

@@ -113,6 +113,10 @@ public class DetailsFragment extends Fragment implements TrailersAdapter.OnTrail
         if (intent.resolveActivity(getActivity().getPackageManager()) != null) startActivity(intent);
     }
 
+    public long getMovieId() {
+        return mMovie.getId();
+    }
+
     private void toggleFavorite(MenuItem item) {
         if (mIsMoviePersisted) {
             Utility.deleteMovieFromDatabase(getActivity(), mMovie);

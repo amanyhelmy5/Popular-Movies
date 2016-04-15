@@ -27,7 +27,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
 
     private Context mContext;
     private List<Movie> mMovies;
-    private static OnItemClickListener sOnItemClickListener;
+    private OnItemClickListener mOnItemClickListener;
 
     public MoviesAdapter(Context context, List<Movie> movies) {
         mContext = context;
@@ -35,11 +35,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        sOnItemClickListener = onItemClickListener;
-    }
-
-    public Movie getItem(int position) {
-        return mMovies.get(position);
+        mOnItemClickListener = onItemClickListener;
     }
 
     public void clear() {
@@ -70,35 +66,34 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String posterPath = mMovies.get(position).getPosterPath();
+        final Movie movie = mMovies.get(position);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { mOnItemClickListener.onItemClick(movie); }
+        });
+
+        String posterPath = movie.getPosterPath();
         String posterUrl = Constants.TMDB_MOVIE_POSTER_URL + posterPath;
         if (Utility.isExternalStorageReadable()) {
             File posterFile = new File(mContext.getExternalFilesDir(null), posterPath);
             if (posterFile.exists()) Picasso.with(mContext).load(posterFile).into(holder.movieImageView);
             else Picasso.with(mContext).load(posterUrl).into(holder.movieImageView);
-        }
-        else Picasso.with(mContext).load(posterUrl).into(holder.movieImageView);
+        } else Picasso.with(mContext).load(posterUrl).into(holder.movieImageView);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.movie_image_view) ImageView movieImageView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            sOnItemClickListener.onItemClick(getAdapterPosition());
         }
 
     }
 
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onItemClick(Movie movie);
     }
 
 }

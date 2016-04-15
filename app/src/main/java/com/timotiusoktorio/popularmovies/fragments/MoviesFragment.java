@@ -1,6 +1,5 @@
 package com.timotiusoktorio.popularmovies.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,7 +15,7 @@ import android.view.ViewGroup;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.timotiusoktorio.popularmovies.FetchMoviesAsync;
 import com.timotiusoktorio.popularmovies.R;
-import com.timotiusoktorio.popularmovies.activities.DetailsActivity;
+import com.timotiusoktorio.popularmovies.activities.MainActivity;
 import com.timotiusoktorio.popularmovies.adapters.MoviesAdapter;
 import com.timotiusoktorio.popularmovies.helpers.DialogHelper;
 import com.timotiusoktorio.popularmovies.models.Movie;
@@ -31,9 +30,7 @@ import butterknife.ButterKnife;
  * Created by Timotius on 2016-03-23.
  */
 
-public class MoviesFragment extends Fragment implements MoviesAdapter.OnItemClickListener, MaterialDialog.ListCallbackSingleChoice {
-
-    public static final String INTENT_EXTRA_MOVIE = "INTENT_EXTRA_MOVIE";
+public class MoviesFragment extends Fragment implements MaterialDialog.ListCallbackSingleChoice {
 
     private MoviesAdapter mAdapter;
 
@@ -46,7 +43,7 @@ public class MoviesFragment extends Fragment implements MoviesAdapter.OnItemClic
         setHasOptionsMenu(true);
 
         mAdapter = new MoviesAdapter(getActivity(), new ArrayList<Movie>());
-        mAdapter.setOnItemClickListener(this);
+        mAdapter.setOnItemClickListener((MainActivity) getActivity());
     }
 
     @Override
@@ -68,7 +65,7 @@ public class MoviesFragment extends Fragment implements MoviesAdapter.OnItemClic
         });
 
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), Utility.getTotalColumns(getActivity())));
         mRecyclerView.setHasFixedSize(true);
     }
 
@@ -101,17 +98,11 @@ public class MoviesFragment extends Fragment implements MoviesAdapter.OnItemClic
     }
 
     @Override
-    public void onItemClick(int position) {
-        Intent intent = new Intent(getActivity(), DetailsActivity.class);
-        intent.putExtra(INTENT_EXTRA_MOVIE, mAdapter.getItem(position));
-        startActivity(intent);
-    }
-
-    @Override
     public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
         int prefSortOption = Utility.getPreferredSortOption(getActivity());
         if (which != prefSortOption) {
             Utility.savePreferredSortOption(getActivity(), which);
+            ((MainActivity) getActivity()).onSortOptionChange();
             fetchMovies();
             return true;
         }
@@ -120,6 +111,10 @@ public class MoviesFragment extends Fragment implements MoviesAdapter.OnItemClic
 
     private void fetchMovies() {
         new FetchMoviesAsync(getActivity(), mAdapter, mSwipeRefreshLayout).execute();
+    }
+
+    public interface OnSortOptionChangeListener {
+        void onSortOptionChange();
     }
 
 }
