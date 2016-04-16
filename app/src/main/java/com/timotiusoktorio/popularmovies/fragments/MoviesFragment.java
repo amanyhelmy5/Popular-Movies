@@ -1,5 +1,6 @@
 package com.timotiusoktorio.popularmovies.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.timotiusoktorio.popularmovies.FetchMoviesAsync;
 import com.timotiusoktorio.popularmovies.R;
+import com.timotiusoktorio.popularmovies.activities.AboutActivity;
 import com.timotiusoktorio.popularmovies.activities.MainActivity;
 import com.timotiusoktorio.popularmovies.adapters.MoviesAdapter;
 import com.timotiusoktorio.popularmovies.helpers.DialogHelper;
@@ -83,10 +85,15 @@ public class MoviesFragment extends Fragment implements MaterialDialog.ListCallb
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_sort) {
-            int prefSortOption = Utility.getPreferredSortOption(getActivity());
-            DialogHelper.instantiateSortPickerDialog(getActivity(), prefSortOption, this);
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_sort:
+                int prefSortOption = Utility.getPreferredSortOption(getActivity());
+                DialogHelper.instantiateSortPickerDialog(getActivity(), prefSortOption, this);
+                return true;
+            case R.id.action_about:
+                Intent intent = new Intent(getActivity(), AboutActivity.class);
+                startActivity(intent);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
