@@ -8,6 +8,7 @@
     <!-- Action Bar Menus -->
     <string name="action_sort">Sort</string>
     <string name="action_favorite">Favorite</string>
+    <string name="action_share">Share</string>
 
     <!-- Dialogs -->
     <string name="dialog_title_sort_picker">Sort by</string>
@@ -23,6 +24,7 @@
     <!-- String Formats -->
     <string name="string_format_release_date">Release date: %s</string>
     <string name="string_format_rating">Rating: %.1f / 10</string>
+    <string name="string_format_share_trailer">Check out the %1$s movie trailer: %2$s!</string>
 
     <!-- UI: Image View -->
     <string name="image_view_cd_movie_poster">Movie Poster</string>

@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.timotiusoktorio.popularmovies.adapters.DetailsAdapter;
 import com.timotiusoktorio.popularmovies.models.Movie;
 import com.timotiusoktorio.popularmovies.models.Review;
 import com.timotiusoktorio.popularmovies.models.Trailer;
@@ -44,11 +43,11 @@ public class FetchMovieDetailsAsync extends AsyncTask<Movie, Void, Movie> {
     private static final String LOG_TAG = FetchMovieDetailsAsync.class.getSimpleName();
 
     private Context mContext;
-    private DetailsAdapter mAdapter;
+    private FetchMovieDetailsCallback mCallback;
 
-    public FetchMovieDetailsAsync(Context context, DetailsAdapter adapter) {
+    public FetchMovieDetailsAsync(Context context, FetchMovieDetailsCallback callback) {
         mContext = context;
-        mAdapter = adapter;
+        mCallback = callback;
     }
 
     @Override
@@ -69,8 +68,7 @@ public class FetchMovieDetailsAsync extends AsyncTask<Movie, Void, Movie> {
     @Override
     protected void onPostExecute(Movie movie) {
         super.onPostExecute(movie);
-        mAdapter.setMovie(movie);
-        mAdapter.notifyDataSetChanged();
+        mCallback.onMovieDetailsFetched(movie);
     }
 
     private String fetchRawMovieData(String movieUrl) {
@@ -149,6 +147,10 @@ public class FetchMovieDetailsAsync extends AsyncTask<Movie, Void, Movie> {
             Log.e(LOG_TAG, e.getMessage(), e);
         }
         return reviews;
+    }
+
+    public interface FetchMovieDetailsCallback {
+        void onMovieDetailsFetched(Movie movie);
     }
 
 }

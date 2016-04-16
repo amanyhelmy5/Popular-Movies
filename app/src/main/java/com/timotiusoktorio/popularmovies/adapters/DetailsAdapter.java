@@ -41,6 +41,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void setMovie(Movie movie) {
         mMovie = movie;
+        notifyDataSetChanged();
     }
 
     public void setOnTrailerClickListener(TrailersAdapter.OnTrailerClickListener onTrailerClickListener) {
