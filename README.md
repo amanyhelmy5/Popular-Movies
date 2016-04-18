@@ -22,4 +22,5 @@ List of third-party libraries used:
 - [Picasso](https://github.com/square/picasso)
 
 [![Get it on Google Play!](screenshots/logo_google_play_badge.png)](https://play.google.com/store/apps/details?id=com.timotiusoktorio.popularmovies)
+
 [![TMDb Logo Attribution](screenshots/logo_tmdb_attribution.png)](https://www.themoviedb.org/)
