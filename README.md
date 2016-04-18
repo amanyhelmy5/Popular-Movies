@@ -21,4 +21,5 @@ List of third-party libraries used:
 - [ButterKnife](https://github.com/JakeWharton/butterknife)
 - [Picasso](https://github.com/square/picasso)
 
-![TMDb Logo Attribution](https://assets.tmdb.org/images/logos/var_1_1_PoweredByTMDB_Blk_Logo_Antitled.png)
+[![Get it on Google Play!](screenshots/logo_google_play_badge.png)](https://play.google.com/store/apps/details?id=com.timotiusoktorio.popularmovies)
+[![TMDb Logo Attribution](screenshots/logo_tmdb_attribution.png)](https://www.themoviedb.org/)
